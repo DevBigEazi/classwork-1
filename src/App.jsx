@@ -3,10 +3,12 @@ import { useState } from "react";
 import contractAbi from "./abi.json";
 
 import { ToastContainer, toast } from "react-toastify";
+import { formatEther } from "ethers";
 
 function App() {
   const [depositAmount, setDepositAmount] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState(0);
+  const [balance, setBalance] = useState();
 
   const contractAddress = "0x904C723011BF43ffd2AF6f85387AB3BC5B799F0C";
 
@@ -100,6 +102,53 @@ function App() {
     }
   };
 
+  const checkBalance = async() => {
+    if (typeof window.ethereum !== "undefined") {
+        await requestAccount();
+  
+        const provider = new ethers.BrowserProvider(window.ethereum);
+    
+        const contractInstance = new ethers.Contract(
+          contractAddress,
+          contractAbi,
+          provider
+        );
+  
+        try {
+          const tx = await contractInstance.getBalance();
+  
+          toast("Successfully get the balance", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+        });
+
+        const balance = formatEther(tx);
+
+            setBalance(balance);
+  
+          console.log(tx);
+          console.log(balance);
+        } catch (error) {
+          toast(`Error: ${error}` , {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+        }
+      }
+  }
+
   return (
     <div className="">
       <input
@@ -117,6 +166,10 @@ function App() {
         onChange={(e) => setWithdrawAmount(e.target.value)}
       />
       <button onClick={withdraw}>Withdraw</button>
+
+      <p style={{backgroundColor: "white", height: "20px", padding: "10px", width: "100%", color: "green"}}>Balance: {balance}</p>
+      <button onClick={checkBalance}>Check Balance</button>
+
       <ToastContainer
         position="top-right"
         autoClose={5000}
