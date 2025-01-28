@@ -44,16 +44,16 @@ function App() {
         });
         console.log(receipt);
       } catch (error) {
-        toast(`Error: ${error}` , {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+        toast(`Error: ${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
         console.log(error);
       }
     }
@@ -76,78 +76,78 @@ function App() {
         const receipt = tx.wait();
 
         toast("Successfully withdraw ether", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
 
         console.log(receipt);
       } catch (error) {
-        toast(`Error: ${error}` , {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+        toast(`Error: ${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
     }
   };
 
-  const checkBalance = async() => {
+  const checkBalance = async () => {
     if (typeof window.ethereum !== "undefined") {
-        await requestAccount();
-  
-        const provider = new ethers.BrowserProvider(window.ethereum);
-    
-        const contractInstance = new ethers.Contract(
-          contractAddress,
-          contractAbi,
-          provider
-        );
-  
-        try {
-          const tx = await contractInstance.getBalance();
-  
-          toast("Successfully get the balance", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "dark",
+      await requestAccount();
+
+      const provider = new ethers.BrowserProvider(window.ethereum);
+
+      const contractInstance = new ethers.Contract(
+        contractAddress,
+        contractAbi,
+        provider
+      );
+
+      try {
+        const tx = await contractInstance.getBalance();
+
+        toast("Successfully get the balance", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
         });
 
         const balance = formatEther(tx);
 
-            setBalance(balance);
-  
-          console.log(tx);
-          console.log(balance);
-        } catch (error) {
-          toast(`Error: ${error}` , {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-        }
+        setBalance(balance);
+
+        console.log(tx);
+        console.log(balance);
+      } catch (error) {
+        toast(`Error: ${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       }
-  }
+    }
+  };
 
   return (
     <div className="">
@@ -167,7 +167,16 @@ function App() {
       />
       <button onClick={withdraw}>Withdraw</button>
 
-      <p style={{backgroundColor: "white", height: "20px", padding: "10px", width: "100%", color: "green"}}>Balance: {balance}</p>
+      <p
+        style={{
+          backgroundColor: "white",
+          height: "20px",
+          padding: "10px",
+          width: "100%",
+          color: "green",
+        }}>
+        Balance: {balance}
+      </p>
       <button onClick={checkBalance}>Check Balance</button>
 
       <ToastContainer
